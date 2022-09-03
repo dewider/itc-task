@@ -88,19 +88,18 @@ class RegistrationComponent extends CBitrixComponent implements Controllerable
 			return ['message' => Loc::getMessage('ADD_ERROR')];
 
 		$server = \Bitrix\Main\Context::getCurrent()->getServer();
-		if((!empty($server->get['HTTPS']) && $server->get['HTTPS'] != 'off') || $server->getServerPort() == 443){
-            $protocol = 'https://';
-        }else{
-            $protocol = 'http://';
-        }
+		$protocol = ((!empty($server->get['HTTPS']) && $server->get['HTTPS'] != 'off') 
+					|| $server->getServerPort() == 443)
+						? 'https://' : 'http://';
 		$link = $protocol.$server->getServerName()
 				.$this->arParams['CONFIRM_URL'] . '?userhash=' . $hash;
+
 		// $result = Event::send([    
 		//     "EVENT_NAME" => $params['EVENT_NAME'],
 		//     "MESSAGE_ID" => $params['MESSAGE_ID'],
 		//     "LID" => SITE_ID,
 		//     "C_FIELDS" => [
-		//         'LINK' => ''
+		//         'LINK' => $link
 		//     ]
 		// ]);
 		// if (!$result->isSuccess())
@@ -116,7 +115,7 @@ class RegistrationComponent extends CBitrixComponent implements Controllerable
 
 		$hash = htmlspecialchars($request->get("hash"));
 		$uid = $this->checkUserHash($hash);
-		if (!$uid)
+		if (!$uid) 
 			return ['message' => Loc::getMessage('INVALID_HASH')];
 
 		$requiredFields = [
