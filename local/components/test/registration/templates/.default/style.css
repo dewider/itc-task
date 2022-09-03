@@ -1,0 +1,7 @@
+.regform-wrap label{
+    display: block;
+    margin-bottom: 5px;
+}
+.regform-wrap input{
+    margin-bottom: 10px;
+}
