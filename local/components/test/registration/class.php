@@ -94,18 +94,17 @@ class RegistrationComponent extends CBitrixComponent implements Controllerable
 		$link = $protocol.$server->getServerName()
 				.$this->arParams['CONFIRM_URL'] . '?userhash=' . $hash;
 
-		// $result = Event::send([    
-		//     "EVENT_NAME" => $params['EVENT_NAME'],
-		//     "MESSAGE_ID" => $params['MESSAGE_ID'],
-		//     "LID" => SITE_ID,
-		//     "C_FIELDS" => [
-		//         'LINK' => $link
-		//     ]
-		// ]);
-		// if (!$result->isSuccess())
-		//     return [ 'message' => Loc::getMessage('SEND_ERROR') ];
+		$result = Event::send([    
+		    "EVENT_NAME" => $params['EVENT_NAME'],
+		    "MESSAGE_ID" => $params['MESSAGE_ID'],
+		    "LID" => SITE_ID,
+		    "C_FIELDS" => [
+		        'LINK' => $link
+		    ]
+		]);
+		if (!$result->isSuccess())
+		    return [ 'message' => Loc::getMessage('SEND_ERROR') ];
 
-		return ['message' => $link];
 		return ['message' => Loc::getMessage('ADD_SUCCESS')];
 	}
 
